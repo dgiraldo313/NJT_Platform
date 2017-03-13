@@ -1,6 +1,8 @@
 var njt_data = require("../models/njt_data.js");
 var notification = require("../models/notification");
 var cron = require("../models/cron");
+
+var min_counter = 0;
 // Parse data and return track
 
 function get() {
@@ -8,17 +10,9 @@ function get() {
                  .then((data) => {
                    // option to choose line for scalability
                    var line = 'Morristown Line';
-                  //  var line_info = findLine(data, line);
+                   var line_info = findLine(data, line);
                   //temp test data
-                   var line_info = { to: 'Dover-SEC',
-                                     line: 'Morristown Line',
-                                     predicted: 0,
-                                     train: '6627',
-                                     confidence: 16.666666666666664,
-                                     departs: '12:46',
-                                     trk: '0',
-                                    created: '2017-02-22_12:05:54' };
-                  var platform = line_info.trk;
+                   var platform = line_info.trk;
 
                    if ( platform !== '0' ) {
                      // trigger send message
@@ -29,11 +23,16 @@ function get() {
                                       line: line_info.line,
                                     };
                     notification.send(notification_info);
-                    cron.noticeReminder.stop();
-                     return true;
+                    cron.noticeReminder.destroy();
+                    return true;
                    } else {
                      //trigger cron job
-                     cron.noticeReminder.start();
+                     if ( min_counter <= 15 ) {
+                       min_counter++;
+                       cron.noticeReminder.start();
+                     } else {
+                       cron.noticeReminder.destroy();
+                     }
                      return false;
                    }
                  });
