@@ -1,20 +1,18 @@
 // use Bandwidth instead of twilio
+const Bandwidth = require("node-bandwidth");
 
-var Bandwidth = require("node-bandwidth");
 
-
-// this function will use Twillio API to send SMS to users that need to be modified
-
-//create a function to send reminder via Twillio
+// this function will use Bandwidth API to send SMS to users that need to be modified
+//create a function to send reminder via Bandwidth
 function send(notice){
-  var client = new Bandwidth({
+  const client = new Bandwidth({
       userId    : process.env.bandwidth_user_id,
       apiToken  : process.env.bandwidth_api_token,
       apiSecret : process.env.bandwidth_api_secret
     });
     console.log('Using Bandwidth to send SMS');
 
-    var options = {
+    const options = {
         from: process.env.bandwidth_phone_number,
         to: process.env.myPhoneNumber,
         text: "PLATFORM #: " +

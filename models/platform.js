@@ -1,22 +1,22 @@
-var njt_data = require("../models/njt_data.js");
-var notification = require("../models/notification");
-var cron = require("../models/cron");
+const njt_data = require("../models/njt_data.js");
+const notification = require("../models/notification");
+const cron = require("../models/cron");
 
-var min_counter = 0;
+let min_counter = 0;
 // Parse data and return track
 
 function get() {
   return njt_data.get()
                  .then((data) => {
                    // option to choose line for scalability
-                   var line = 'Morristown Line';
-                   var line_info = findLine(data, line);
+                   const line = 'Morristown Line';
+                   const line_info = findLine(data, line);
                   //temp test data
-                   var platform = line_info.trk;
+                   const platform = line_info.trk;
 
                    if ( platform !== '0' ) {
                      // trigger send message
-                     var notification_info = {
+                     const notification_info = {
                                       platform : platform,
                                       train: line_info.train,
                                       dep_time : line_info.departs,
@@ -39,7 +39,7 @@ function get() {
 }
 
 function findLine( data, line) {
-  var lines_found = [];
+  let lines_found = [];
   data.map((curr_line) => {
     if( curr_line.line === line) {
       lines_found.push(curr_line);

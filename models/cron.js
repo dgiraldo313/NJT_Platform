@@ -1,9 +1,8 @@
-var cron = require('node-cron');
-var notification = require("../models/notification");
-var platform = require("../models/platform");
-// var moment = require('moment');
+const cron = require('node-cron');
+const notification = require("../models/notification");
+const platform = require("../models/platform");
 
-var task = cron.schedule('* * * * *', function() {
+const task = cron.schedule('* * * * *', function() {
   console.log('Cron in progress');
   platform.get();
 }, false);

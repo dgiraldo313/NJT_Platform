@@ -1,9 +1,8 @@
 const http = require('http');
 
 function get() {
-  console.log('get function initiated');
   return new Promise(function (resolve, reject) {
-    var options = {
+    const options = {
       hostname: 'cs.drew.edu',
       port: 80,
       path: '/~cthurber/wtrs/data/current_listings.json',
@@ -11,8 +10,8 @@ function get() {
     };
 
     // make request
-    var request = http.request(options, (response) => {
-      var body = '';
+    const request = http.request(options, (response) => {
+      let body = '';
 
       response.on('data', (data) => {
         body += data;
@@ -37,7 +36,7 @@ function get() {
 
     //error handling
     request.on('error', (error) => {
-      console.log('something went wrong: ' + error);
+      console.error('something went wrong: ' + error);
       reject(error);
     });
   });
